@@ -1,0 +1,1 @@
+# Sticky_project_django_webapp
