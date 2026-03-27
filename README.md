@@ -1,3 +1,7 @@
+# Name: Abdullah Bilal
+# Roll No: 22P-9248
+# Section: BCS-8B
+
 ## Sticky Notes Web Application
 ### Project Overview
 I have developed this personal Sticky Notes web application using the Django framework as part of my Web Engineering assignment. The application allows users to securely register, log in, and manage their own private collection of notes. Each user has a protected workspace where they can create, view, edit, and delete their sticky notes.
