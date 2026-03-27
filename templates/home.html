@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="text-align: center; max-width: 800px; margin: 50px auto; padding: 60px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+    <h1 style="font-size: 3rem; color: #2c3e50; margin-bottom: 20px;">Welcome to Sticky Notes! ✍️</h1>
+    <p style="font-size: 1.2rem; color: #7f8c8d; line-height: 1.6;">
+        The simplest way to organize your ideas, tasks, and reminders. 
+        Create colorful notes, pin important ones, and search through them in a flash.
+    </p>
+    <div style="margin-top: 40px;">
+        <a href="{% url 'create_note' %}" style="padding: 18px 40px; background: #27ae60; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);">Start Writing Now</a>
+    </div>
+</div>
+{% endblock %}

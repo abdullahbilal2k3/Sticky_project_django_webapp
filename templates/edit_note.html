@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head><title>Edit Note</title></head>
-<body style="padding: 50px; font-family: sans-serif;">
-    <h2>Edit Note ✏️</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="title" value="{{ note.title }}" style="width: 300px;"><br><br>
-        <textarea name="content" style="width: 300px; height: 150px;">{{ note.content }}</textarea><br><br>
-        <button type="submit">Update Note</button>
-        <a href="{% url 'home' %}">Cancel</a>
-    </form>
+<body style="font-family: sans-serif; background: #f4f4f4; padding: 50px;">
+    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2>Edit Note ✏️</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Title:</label>
+            <input type="text" name="title" value="{{ note.title }}" style="width: 100%; padding: 10px; margin: 10px 0;"><br>
+            <label>Content:</label>
+            <textarea name="content" style="width: 100%; padding: 10px; margin: 10px 0; height: 100px;">{{ note.content }}</textarea><br>
+            <label>Color:</label>
+            <input type="color" name="color" value="{{ note.color }}"><br><br>
+            <button type="submit" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
+            <a href="{% url 'home' %}" style="margin-left: 10px; color: #666;">Cancel</a>
+        </form>
+    </div>
 </body>
 </html>

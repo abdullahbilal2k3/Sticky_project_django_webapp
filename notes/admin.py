@@ -3,11 +3,6 @@ from .models import Note
 
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
-    # Sirf wahi fields rakhein jo hamare Note model mein hain
-    list_display = ('title', 'created_at', 'updated_at', 'color')
-    
-    # Filter bhi sirf existing fields par lagayein
-    list_filter = ('created_at',)
-    
-    # Search title aur content mein karein
+    list_display = ('title', 'pinned', 'created_at', 'color')
+    list_filter = ('pinned', 'created_at')
     search_fields = ('title', 'content')

@@ -1,38 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sticky Notes</title>
+    <title>My Sticky Notes</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #eef2f3; padding: 30px; }
-        .form-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 400px; margin-bottom: 30px; }
-        input, textarea { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        button { background: #28a745; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
-        .grid { display: flex; flex-wrap: wrap; gap: 20px; }
-        .card { background: #ffeb3b; padding: 20px; width: 200px; min-height: 150px; box-shadow: 5px 5px 7px rgba(0,0,0,0.1); position: relative; transform: rotate(-1deg); }
-        .del { color: red; position: absolute; top: 5px; right: 10px; text-decoration: none; font-weight: bold; }
-        .edit { display: block; margin-top: 10px; font-size: 12px; color: #555; text-decoration: none; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 5px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; }
+        .header-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+        .form-container, .search-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-container { width: 400px; }
+        input, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn-save { background: #28a745; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; border-radius: 5px; font-weight: bold; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .card { padding: 20px; min-height: 180px; box-shadow: 5px 5px 10px rgba(0,0,0,0.1); position: relative; border-radius: 2px; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .pin-btn { text-decoration: none; font-size: 20px; position: absolute; left: 10px; top: 10px; }
+        .del-btn { text-decoration: none; color: #ff4d4d; font-weight: bold; position: absolute; right: 10px; top: 10px; font-size: 18px; }
+        .edit-link { display: block; margin-top: 15px; font-size: 13px; color: #555; text-decoration: none; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 5px; }
+        .pinned-status { border: 2px solid #333; }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>New Note 📝</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <input type="text" name="title" placeholder="Title" required>
-            <textarea name="content" placeholder="Content..." required></textarea>
-            <button type="submit">Save Note</button>
-        </form>
+
+    <div class="header-section">
+        <div class="form-container">
+            <h2>New Note 📝</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="title" placeholder="Title" required>
+                <textarea name="content" placeholder="Content..." required rows="3"></textarea>
+                <div style="margin: 10px 0;">
+                    <label>Note Color: </label>
+                    <input type="color" name="color" value="#ffffa5" style="width: 50px; height: 30px; padding: 2px; vertical-align: middle;">
+                </div>
+                <button type="submit" class="btn-save">Save Sticky Note</button>
+            </form>
+        </div>
+
+        <div class="search-container">
+            <h3>Search Notes 🔍</h3>
+            <form method="GET">
+                <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Type to search...">
+                <button type="submit" style="padding: 5px 15px; cursor: pointer;">Search</button>
+                {% if query %}<a href="{% url 'home' %}" style="margin-left: 10px; font-size: 12px;">Clear Search</a>{% endif %}
+            </form>
+        </div>
     </div>
+
+    <hr>
 
     <div class="grid">
         {% for note in notes %}
-        <div class="card">
-            <a href="{% url 'delete_note' note.id %}" class="del" onclick="return confirm('Delete?')">×</a>
-            <h3>{{ note.title }}</h3>
+        <div class="card {% if note.pinned %}pinned-status{% endif %}" style="background-color: {{ note.color }};">
+            <a href="{% url 'toggle_pin' note.id %}" class="pin-btn" title="Toggle Pin">
+                {% if note.pinned %}📌{% else %}📍{% endif %}
+            </a>
+            <a href="{% url 'delete_note' note.id %}" class="del-btn" onclick="return confirm('Delete this note?')">×</a>
+            
+            <h3 style="margin-top: 25px;">{{ note.title }}</h3>
             <p>{{ note.content }}</p>
-            <a href="{% url 'edit_note' note.id %}" class="edit">✏️ Edit</a>
+            
+            <div style="font-size: 10px; color: #666; margin-top: 10px;">
+                Updated: {{ note.updated_at|date:"d M, H:i" }}
+            </div>
+            <a href="{% url 'edit_note' note.id %}" class="edit-link">✏️ Edit Note</a>
         </div>
+        {% empty %}
+            <p>No notes found. Create your first sticky note!</p>
         {% endfor %}
     </div>
+
 </body>
 </html>

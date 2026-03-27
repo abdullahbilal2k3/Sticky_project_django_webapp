@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center;">Register Account 🚀</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username" required style="width:100%; padding:12px; margin:10px 0; border-radius:5px; border:1px solid #ddd;">
+        <input type="email" name="email" placeholder="Email" required style="width:100%; padding:12px; margin:10px 0; border-radius:5px; border:1px solid #ddd;">
+        <input type="password" name="password" placeholder="Password" required style="width:100%; padding:12px; margin:10px 0; border-radius:5px; border:1px solid #ddd;">
+        <button type="submit" style="width:100%; padding:12px; background:#27ae60; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Create Account</button>
+    </form>
+</div>
+{% endblock %}
